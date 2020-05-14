@@ -1,4 +1,4 @@
 ### Go API
 
-* Build api: `docker build -t go-api .`
-* Run api: `docker run -it go-api`
+* Build api: `docker build -t go_api .`
+* Run api with mysql: `docker-compose up -d`

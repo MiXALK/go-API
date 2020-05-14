@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+  api:
+    container_name: go_api
+    build: .
+    ports:
+      - 8080:8080
+    restart: on-failure
+    volumes:
+      - .:/usr/src/app/
+    depends_on:
+      - database
+    networks:
+      - goapi
+
+  database:
+    image: mysql:8
+    container_name: go_api_mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_HOST=${DB_HOST}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    networks:
+      - goapi
+    volumes:
+      - database_mysql:/var/lib/mysql
+
+networks:
+  goapi: ~
+
+volumes:
+  database_mysql:
