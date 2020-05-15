@@ -4,7 +4,7 @@ services:
     container_name: go_api
     build: .
     ports:
-      - 8080:8080
+      - ${API_PORT}:${API_PORT}
     restart: on-failure
     volumes:
       - .:/usr/src/app/

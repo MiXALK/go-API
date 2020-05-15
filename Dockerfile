@@ -23,6 +23,6 @@ WORKDIR /root/
 COPY --from=builder /app/cmd/main .
 COPY --from=builder /app/.env .
 
-EXPOSE 8080
+EXPOSE ${API_PORT}
 
 CMD ["./main"]
