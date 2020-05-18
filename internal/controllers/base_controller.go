@@ -48,6 +48,10 @@ func (server *APIServer) Run(addr string) {
 
 func (server *APIServer) registerRoutes() {
 	server.Router.HandleFunc("/portfolio", server.CreatePortfolio).Methods("POST")
+	server.Router.HandleFunc("/portfolio", server.GetPortfolios).Methods("GET")
+	server.Router.HandleFunc("/portfolio/{id}", server.GetPortfolioById).Methods("GET")
+	server.Router.HandleFunc("/portfolio/{id}", server.UpdatePortfolio).Methods("PUT")
+	server.Router.HandleFunc("/portfolio/{id}", server.DeletePortfolio).Methods("DELETE")
 }
 
 func (server *APIServer) createRequiredDbTables() {

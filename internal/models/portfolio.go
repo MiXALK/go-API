@@ -2,7 +2,7 @@ package models
 
 import (
 	"database/sql"
-	"fmt"
+	"errors"
 	"github.com/MiXALK/go-API/internal/utils"
 )
 
@@ -31,22 +31,41 @@ func GetAllPortfolios(db *sql.DB) []Portfolio {
 
 	var portfolio = Portfolio{}
 	for rows.Next() {
-		e = rows.Scan(portfolio.ID, portfolio.Name)
+		e = rows.Scan(&portfolio.ID, &portfolio.Name)
 		utils.ErrorCheck(e)
-		fmt.Println(portfolio)
+		Portfolios = append(Portfolios, portfolio)
 	}
 
 	return Portfolios
 }
 
-//func GetPortfolioById(Id int64) (*Portfolio , *gorm.DB){
-//	var getPortfolio Portfolio
-//	db:=db.Where("ID = ?", Id).Find(&getPortfolio)
-//	return &getPortfolio, db
-//}
-//
-//func DeletePortfolio(ID int64) Portfolio {
-//	var portfolio Portfolio
-//	db.Where("ID = ?", ID).Delete(portfolio)
-//	return portfolio
-//}
+func GetPortfolioById(db *sql.DB, Id int64) (*Portfolio, error) {
+	portfolio := &Portfolio{}
+	err := db.QueryRow(
+		"SELECT * FROM `portfolio` WHERE id = ?;", Id,
+	).Scan(
+		&portfolio.ID,
+		&portfolio.Name,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, errors.New("portfolio_not_found")
+		}
+
+		return nil, err
+	}
+
+	return portfolio, nil
+}
+
+func (portfolio *Portfolio) UpdatePortfolio(db *sql.DB) {
+	sqlStatement := `UPDATE portfolio SET name = ? WHERE id = ?;`
+	_, err := db.Exec(sqlStatement, &portfolio.Name, &portfolio.ID)
+	utils.ErrorCheck(err)
+}
+
+func DeletePortfolio(db *sql.DB, ID int64) {
+	sqlStatement := `DELETE FROM portfolio WHERE id = ?;`
+	_, err := db.Exec(sqlStatement, ID)
+	utils.ErrorCheck(err)
+}
