@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package portfolio;
+
+option go_package = ".;portfolio";
+
+service PortfolioService {
+  rpc Create (CreatePortfolioRequest) returns (CreatePortfolioResponse) {}
+//  rpc GetAll (Specification) returns (Response) {}
+//  rpc Find (Vessel) returns (Response) {}
+//  rpc Update (Vessel) returns (Response) {}
+//  rpc Delete (Vessel) returns (Response) {}
+}
+
+message CreatePortfolioRequest {
+  string Name = 1;
+}
+message CreatePortfolioResponse {
+  string Status = 1;
+  string ID = 2;
+}
+
+message Portfolio {
+  string ID = 1;
+  string Name = 2;
+}

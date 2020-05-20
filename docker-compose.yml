@@ -1,36 +1,71 @@
 version: '3.7'
 services:
-  api:
-    container_name: go_api
-    build: .
+#  api:
+#    container_name: go_api
+#    build: .
+#    ports:
+#      - ${API_PORT}:${API_PORT}
+#    restart: on-failure
+#    volumes:
+#      - .:/usr/src/app/
+#    depends_on:
+#      - database
+#      - mongo
+#    networks:
+#      - goapi
+
+  portfolio:
+    container_name: api_portfolio
+    build:
+      context: ./services/portfolio
+      dockerfile: Dockerfile
+    restart: always
+    working_dir: /app
     ports:
-      - ${API_PORT}:${API_PORT}
-    restart: on-failure
-    volumes:
-      - .:/usr/src/app/
+      - ${PORTFOLIO_PORT_LOCAL}:${API_PORT}
     depends_on:
-      - database
-    networks:
-      - goapi
-
-  database:
-    image: mysql:8
-    container_name: go_api_mysql
-    ports:
-      - 3306:3306
+      - mongo
     environment:
-      - MYSQL_ROOT_HOST=${DB_HOST}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-    networks:
-      - goapi
+      - PORTFOLIO_HOST=${PORTFOLIO_HOST}
+      - API_PORT=${API_PORT}
+      - PORTFOLIO_PORT_LOCAL=${PORTFOLIO_PORT_LOCAL}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASS=${MONGO_PASS}
+      - DB_NAME=${DB_NAME}
+
+#  database:
+#    image: mysql:8
+#    container_name: go_api_mysql
+#    ports:
+#      - 3306:3306
+#    environment:
+#      - MYSQL_ROOT_HOST=${DB_HOST}
+#      - MYSQL_USER=${DB_USER}
+#      - MYSQL_PASSWORD=${DB_PASSWORD}
+#      - MYSQL_DATABASE=${DB_NAME}
+#      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+#    networks:
+#      - goapi
+#    volumes:
+#      - database_mysql:/var/lib/mysql
+
+  mongo:
+    image: mongo
+    container_name: go_api_mongo
+    restart: always
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
     volumes:
-      - database_mysql:/var/lib/mysql
+      - ./data/mongo:/data/db
 
-networks:
-  goapi: ~
-
-volumes:
-  database_mysql:
+#networks:
+#  goapi: ~
+#
+#volumes:
+#  database_mysql:

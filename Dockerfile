@@ -2,13 +2,11 @@ ARG GO_VERSION=1.14.2
 
 FROM golang:${GO_VERSION}-alpine as builder
 
-RUN apk update && apk add --no-cache git
-
 WORKDIR /app
 
 COPY go.mod go.sum ./
 
-RUN go mod download
+RUN apk update && apk add --no-cache git && go mod download
 
 COPY . .
 
