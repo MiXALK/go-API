@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"context"
 	"fmt"
 	portfolio "github.com/MiXALK/go-API/services/portfolio/protobuf"
 	"log"
@@ -25,7 +24,6 @@ func main() {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
-
 	//Test block
 	//p := portfolio.CreatePortfolioRequest{
 	//	Name: "TEST",
@@ -40,8 +38,14 @@ func main() {
 	//if err != nil {
 	//	log.Fatalf("failed: %v", err)
 	//}
-
-
+	//a := portfolio.FindPortfolioRequest{
+	//	ID: "5ec67b0509a4edc79d1f8312",
+	//}
+	//res, err := s.Find(context.TODO(), &a)
+	//if err != nil {
+	//	log.Fatalf("failed: %v", err)
+	//}
+	//fmt.Println(res)
 
 	defer s.DbDisconnect()
 

@@ -72,8 +72,9 @@ func (s *Server) Create(_ context.Context, req *CreatePortfolioRequest) (*Create
 	} else {
 		return res, status.Error(codes.Internal, "Error portfolio saving to database")
 	}
-	res.ID = portfolioId
+
 	res.Status = "success"
+	res.ID = portfolioId
 
 	return res, nil
 }
@@ -101,7 +102,7 @@ func (s *Server) GetAll(_ context.Context, _ *GetAllPortfolioRequest) (*GetAllPo
 	}
 
 	if err := cur.Err(); err != nil {
-		return res,err
+		return res, err
 	}
 
 	if err := cur.Close(context.TODO()); err != nil {
@@ -111,7 +112,27 @@ func (s *Server) GetAll(_ context.Context, _ *GetAllPortfolioRequest) (*GetAllPo
 	res.Status = "success"
 	res.Portfolios = results
 
-	fmt.Println(res)
+	return res, nil
+}
+
+func (s *Server) Find(_ context.Context, req *FindPortfolioRequest) (*FindPortfolioResponse, error) {
+	res := &FindPortfolioResponse{}
+
+	id, err := primitive.ObjectIDFromHex(req.ID)
+	if err != nil {
+		return res, err
+	}
+
+	collection := s.DbClient.Database(os.Getenv("DB_NAME")).Collection(DB_PORTFOLIO_COLLECTION)
+	portfolio := &Portfolio{}
+	filter := bson.M{"_id": id}
+	err = collection.FindOne(context.TODO(), filter).Decode(portfolio)
+	if err != nil {
+		return res, err
+	}
+
+	res.Status = "success"
+	res.Portfolio = portfolio
 
 	return res, nil
 }

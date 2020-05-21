@@ -224,6 +224,108 @@ func (x *GetAllPortfolioResponse) GetPortfolios() []*Portfolio {
 	return nil
 }
 
+type FindPortfolioRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID string `protobuf:"bytes,1,opt,name=ID,json=iD,proto3" json:"ID,omitempty"`
+}
+
+func (x *FindPortfolioRequest) Reset() {
+	*x = FindPortfolioRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_portfolio_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FindPortfolioRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FindPortfolioRequest) ProtoMessage() {}
+
+func (x *FindPortfolioRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_portfolio_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FindPortfolioRequest.ProtoReflect.Descriptor instead.
+func (*FindPortfolioRequest) Descriptor() ([]byte, []int) {
+	return file_portfolio_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *FindPortfolioRequest) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+type FindPortfolioResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status    string     `protobuf:"bytes,1,opt,name=Status,json=status,proto3" json:"Status,omitempty"`
+	Portfolio *Portfolio `protobuf:"bytes,2,opt,name=Portfolio,json=portfolio,proto3" json:"Portfolio,omitempty"`
+}
+
+func (x *FindPortfolioResponse) Reset() {
+	*x = FindPortfolioResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_portfolio_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FindPortfolioResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FindPortfolioResponse) ProtoMessage() {}
+
+func (x *FindPortfolioResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_portfolio_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FindPortfolioResponse.ProtoReflect.Descriptor instead.
+func (*FindPortfolioResponse) Descriptor() ([]byte, []int) {
+	return file_portfolio_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *FindPortfolioResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *FindPortfolioResponse) GetPortfolio() *Portfolio {
+	if x != nil {
+		return x.Portfolio
+	}
+	return nil
+}
+
 type Portfolio struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -235,7 +337,7 @@ type Portfolio struct {
 func (x *Portfolio) Reset() {
 	*x = Portfolio{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_portfolio_proto_msgTypes[4]
+		mi := &file_portfolio_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -248,7 +350,7 @@ func (x *Portfolio) String() string {
 func (*Portfolio) ProtoMessage() {}
 
 func (x *Portfolio) ProtoReflect() protoreflect.Message {
-	mi := &file_portfolio_proto_msgTypes[4]
+	mi := &file_portfolio_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -261,7 +363,7 @@ func (x *Portfolio) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Portfolio.ProtoReflect.Descriptor instead.
 func (*Portfolio) Descriptor() ([]byte, []int) {
-	return file_portfolio_proto_rawDescGZIP(), []int{4}
+	return file_portfolio_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Portfolio) GetName() string {
@@ -291,22 +393,35 @@ var file_portfolio_proto_rawDesc = []byte{
 	0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14,
 	0x2e, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x2e, 0x50, 0x6f, 0x72, 0x74, 0x66,
 	0x6f, 0x6c, 0x69, 0x6f, 0x52, 0x0a, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x73,
-	0x22, 0x1f, 0x0a, 0x09, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x12, 0x12, 0x0a,
-	0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d,
-	0x65, 0x32, 0xb8, 0x01, 0x0a, 0x10, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x53,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x51, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
-	0x12, 0x21, 0x2e, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x2e, 0x43, 0x72, 0x65,
-	0x61, 0x74, 0x65, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x52, 0x65, 0x71, 0x75,
+	0x22, 0x26, 0x0a, 0x14, 0x46, 0x69, 0x6e, 0x64, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69,
+	0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x44, 0x22, 0x63, 0x0a, 0x15, 0x46, 0x69, 0x6e, 0x64,
+	0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x16, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x32, 0x0a, 0x09, 0x50, 0x6f, 0x72,
+	0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70,
+	0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x2e, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c,
+	0x69, 0x6f, 0x52, 0x09, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x22, 0x1f, 0x0a,
+	0x09, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61,
+	0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x32, 0x85,
+	0x02, 0x0a, 0x10, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x53, 0x65, 0x72, 0x76,
+	0x69, 0x63, 0x65, 0x12, 0x51, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x21, 0x2e,
+	0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x22, 0x2e, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x51, 0x0a, 0x06, 0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c,
+	0x12, 0x21, 0x2e, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x2e, 0x47, 0x65, 0x74,
+	0x41, 0x6c, 0x6c, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x2e,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x51, 0x0a, 0x06, 0x47, 0x65, 0x74,
-	0x41, 0x6c, 0x6c, 0x12, 0x21, 0x2e, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x2e,
 	0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c,
-	0x69, 0x6f, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x6c, 0x6c, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c,
-	0x69, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0d, 0x5a, 0x0b,
-	0x2e, 0x3b, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4b, 0x0a, 0x04, 0x46, 0x69, 0x6e,
+	0x64, 0x12, 0x1f, 0x2e, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x2e, 0x46, 0x69,
+	0x6e, 0x64, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x20, 0x2e, 0x70, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x2e, 0x46,
+	0x69, 0x6e, 0x64, 0x50, 0x6f, 0x72, 0x74, 0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0d, 0x5a, 0x0b, 0x2e, 0x3b, 0x70, 0x6f, 0x72, 0x74,
+	0x66, 0x6f, 0x6c, 0x69, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -321,25 +436,30 @@ func file_portfolio_proto_rawDescGZIP() []byte {
 	return file_portfolio_proto_rawDescData
 }
 
-var file_portfolio_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_portfolio_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_portfolio_proto_goTypes = []interface{}{
 	(*CreatePortfolioRequest)(nil),  // 0: portfolio.CreatePortfolioRequest
 	(*CreatePortfolioResponse)(nil), // 1: portfolio.CreatePortfolioResponse
 	(*GetAllPortfolioRequest)(nil),  // 2: portfolio.GetAllPortfolioRequest
 	(*GetAllPortfolioResponse)(nil), // 3: portfolio.GetAllPortfolioResponse
-	(*Portfolio)(nil),               // 4: portfolio.Portfolio
+	(*FindPortfolioRequest)(nil),    // 4: portfolio.FindPortfolioRequest
+	(*FindPortfolioResponse)(nil),   // 5: portfolio.FindPortfolioResponse
+	(*Portfolio)(nil),               // 6: portfolio.Portfolio
 }
 var file_portfolio_proto_depIdxs = []int32{
-	4, // 0: portfolio.GetAllPortfolioResponse.Portfolios:type_name -> portfolio.Portfolio
-	0, // 1: portfolio.PortfolioService.Create:input_type -> portfolio.CreatePortfolioRequest
-	2, // 2: portfolio.PortfolioService.GetAll:input_type -> portfolio.GetAllPortfolioRequest
-	1, // 3: portfolio.PortfolioService.Create:output_type -> portfolio.CreatePortfolioResponse
-	3, // 4: portfolio.PortfolioService.GetAll:output_type -> portfolio.GetAllPortfolioResponse
-	3, // [3:5] is the sub-list for method output_type
-	1, // [1:3] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	6, // 0: portfolio.GetAllPortfolioResponse.Portfolios:type_name -> portfolio.Portfolio
+	6, // 1: portfolio.FindPortfolioResponse.Portfolio:type_name -> portfolio.Portfolio
+	0, // 2: portfolio.PortfolioService.Create:input_type -> portfolio.CreatePortfolioRequest
+	2, // 3: portfolio.PortfolioService.GetAll:input_type -> portfolio.GetAllPortfolioRequest
+	4, // 4: portfolio.PortfolioService.Find:input_type -> portfolio.FindPortfolioRequest
+	1, // 5: portfolio.PortfolioService.Create:output_type -> portfolio.CreatePortfolioResponse
+	3, // 6: portfolio.PortfolioService.GetAll:output_type -> portfolio.GetAllPortfolioResponse
+	5, // 7: portfolio.PortfolioService.Find:output_type -> portfolio.FindPortfolioResponse
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_portfolio_proto_init() }
@@ -397,6 +517,30 @@ func file_portfolio_proto_init() {
 			}
 		}
 		file_portfolio_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FindPortfolioRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_portfolio_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FindPortfolioResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_portfolio_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Portfolio); i {
 			case 0:
 				return &v.state
@@ -415,7 +559,7 @@ func file_portfolio_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_portfolio_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -443,6 +587,7 @@ const _ = grpc.SupportPackageIsVersion6
 type PortfolioServiceClient interface {
 	Create(ctx context.Context, in *CreatePortfolioRequest, opts ...grpc.CallOption) (*CreatePortfolioResponse, error)
 	GetAll(ctx context.Context, in *GetAllPortfolioRequest, opts ...grpc.CallOption) (*GetAllPortfolioResponse, error)
+	Find(ctx context.Context, in *FindPortfolioRequest, opts ...grpc.CallOption) (*FindPortfolioResponse, error)
 }
 
 type portfolioServiceClient struct {
@@ -471,10 +616,20 @@ func (c *portfolioServiceClient) GetAll(ctx context.Context, in *GetAllPortfolio
 	return out, nil
 }
 
+func (c *portfolioServiceClient) Find(ctx context.Context, in *FindPortfolioRequest, opts ...grpc.CallOption) (*FindPortfolioResponse, error) {
+	out := new(FindPortfolioResponse)
+	err := c.cc.Invoke(ctx, "/portfolio.PortfolioService/Find", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PortfolioServiceServer is the server API for PortfolioService service.
 type PortfolioServiceServer interface {
 	Create(context.Context, *CreatePortfolioRequest) (*CreatePortfolioResponse, error)
 	GetAll(context.Context, *GetAllPortfolioRequest) (*GetAllPortfolioResponse, error)
+	Find(context.Context, *FindPortfolioRequest) (*FindPortfolioResponse, error)
 }
 
 // UnimplementedPortfolioServiceServer can be embedded to have forward compatible implementations.
@@ -486,6 +641,9 @@ func (*UnimplementedPortfolioServiceServer) Create(context.Context, *CreatePortf
 }
 func (*UnimplementedPortfolioServiceServer) GetAll(context.Context, *GetAllPortfolioRequest) (*GetAllPortfolioResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
+}
+func (*UnimplementedPortfolioServiceServer) Find(context.Context, *FindPortfolioRequest) (*FindPortfolioResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Find not implemented")
 }
 
 func RegisterPortfolioServiceServer(s *grpc.Server, srv PortfolioServiceServer) {
@@ -528,6 +686,24 @@ func _PortfolioService_GetAll_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PortfolioService_Find_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindPortfolioRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PortfolioServiceServer).Find(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/portfolio.PortfolioService/Find",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PortfolioServiceServer).Find(ctx, req.(*FindPortfolioRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _PortfolioService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "portfolio.PortfolioService",
 	HandlerType: (*PortfolioServiceServer)(nil),
@@ -539,6 +715,10 @@ var _PortfolioService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAll",
 			Handler:    _PortfolioService_GetAll_Handler,
+		},
+		{
+			MethodName: "Find",
+			Handler:    _PortfolioService_Find_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
