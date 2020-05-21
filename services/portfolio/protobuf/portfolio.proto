@@ -6,7 +6,7 @@ option go_package = ".;portfolio";
 
 service PortfolioService {
   rpc Create (CreatePortfolioRequest) returns (CreatePortfolioResponse) {}
-//  rpc GetAll (Specification) returns (Response) {}
+//  rpc GetAll (GetAllPortfolioRequest) returns (GetAllPortfolioResponse) {}
 //  rpc Find (Vessel) returns (Response) {}
 //  rpc Update (Vessel) returns (Response) {}
 //  rpc Delete (Vessel) returns (Response) {}
@@ -20,7 +20,12 @@ message CreatePortfolioResponse {
   string ID = 2;
 }
 
+//message GetAllPortfolioRequest {}
+//
+//message GetAllPortfolioResponse {
+//  repeated Portfolio Portfolios = 1;
+//}
+
 message Portfolio {
-  string ID = 1;
-  string Name = 2;
+  string Name = 1;
 }

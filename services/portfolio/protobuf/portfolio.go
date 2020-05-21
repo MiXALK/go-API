@@ -64,15 +64,16 @@ func (s *Server) Create(_ context.Context, req *CreatePortfolioRequest) (*Create
 		return res, err
 	}
 
+	var portfolioId string
 	oid, ok := insertResult.InsertedID.(primitive.ObjectID)
 	if ok {
-		portfolio.ID = oid.Hex()
+		portfolioId = oid.Hex()
 	} else {
 		return res, status.Error(codes.Internal, "Error portfolio saving to database")
 	}
 
 	res.Status = "success"
-	res.ID = portfolio.GetID()
+	res.ID = portfolioId
 
 	//fmt.Println(res)
 

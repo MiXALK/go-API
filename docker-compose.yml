@@ -19,7 +19,7 @@ services:
     build:
       context: ./services/portfolio
       dockerfile: Dockerfile
-    restart: always
+    restart: on-failure
     working_dir: /app
     ports:
       - ${PORTFOLIO_PORT_LOCAL}:${API_PORT}
@@ -54,15 +54,13 @@ services:
   mongo:
     image: mongo
     container_name: go_api_mongo
-    restart: always
+    restart: on-failure
     ports:
       - ${MONGO_PORT}:${MONGO_PORT}
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
       MONGO_INITDB_DATABASE: ${DB_NAME}
-    volumes:
-      - ./data/mongo:/data/db
 
 #networks:
 #  goapi: ~
