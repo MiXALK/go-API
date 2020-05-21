@@ -3,6 +3,7 @@ package portfolio
 import (
 	"context"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -71,11 +72,46 @@ func (s *Server) Create(_ context.Context, req *CreatePortfolioRequest) (*Create
 	} else {
 		return res, status.Error(codes.Internal, "Error portfolio saving to database")
 	}
+	res.ID = portfolioId
+	res.Status = "success"
+
+	return res, nil
+}
+
+func (s *Server) GetAll(_ context.Context, _ *GetAllPortfolioRequest) (*GetAllPortfolioResponse, error) {
+	res := &GetAllPortfolioResponse{}
+
+	collection := s.DbClient.Database(os.Getenv("DB_NAME")).Collection(DB_PORTFOLIO_COLLECTION)
+
+	filter := bson.D{}
+	var results []*Portfolio
+
+	cur, err := collection.Find(context.TODO(), filter)
+	if err != nil {
+		return res, err
+	}
+
+	for cur.Next(context.TODO()) {
+		portfolio := &Portfolio{}
+		err := cur.Decode(portfolio)
+		if err != nil {
+			return res, err
+		}
+		results = append(results, portfolio)
+	}
+
+	if err := cur.Err(); err != nil {
+		return res,err
+	}
+
+	if err := cur.Close(context.TODO()); err != nil {
+		return res, err
+	}
 
 	res.Status = "success"
-	res.ID = portfolioId
+	res.Portfolios = results
 
-	//fmt.Println(res)
+	fmt.Println(res)
 
 	return res, nil
 }

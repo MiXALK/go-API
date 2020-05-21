@@ -25,6 +25,8 @@ func main() {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
+
+	//Test block
 	//p := portfolio.CreatePortfolioRequest{
 	//	Name: "TEST",
 	//}
@@ -32,6 +34,14 @@ func main() {
 	//if er != nil {
 	//	log.Fatalf("failed: %v", err)
 	//}
+	//
+	//a := portfolio.GetAllPortfolioRequest{}
+	//_, err = s.GetAll(context.TODO(), &a)
+	//if err != nil {
+	//	log.Fatalf("failed: %v", err)
+	//}
+
+
 
 	defer s.DbDisconnect()
 
