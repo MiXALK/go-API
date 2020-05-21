@@ -8,7 +8,7 @@ service PortfolioService {
   rpc Create (CreatePortfolioRequest) returns (CreatePortfolioResponse) {}
   rpc GetAll (GetAllPortfolioRequest) returns (GetAllPortfolioResponse) {}
   rpc Find (FindPortfolioRequest) returns (FindPortfolioResponse) {}
-//  rpc Update (Request) returns (Response) {}
+  rpc Update (UpdatePortfolioRequest) returns (UpdatePortfolioResponse) {}
 //  rpc Delete (Request) returns (Response) {}
 }
 
@@ -32,6 +32,14 @@ message FindPortfolioRequest {
 message FindPortfolioResponse {
   string Status = 1;
   Portfolio Portfolio = 2;
+}
+
+message UpdatePortfolioRequest {
+  string Id = 1;
+  string Name = 2;
+}
+message UpdatePortfolioResponse {
+  string Status = 1;
 }
 
 message Portfolio {

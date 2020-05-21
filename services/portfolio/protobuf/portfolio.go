@@ -13,7 +13,10 @@ import (
 	"os"
 )
 
-const DB_PORTFOLIO_COLLECTION string = "portfolio"
+const (
+	DB_PORTFOLIO_COLLECTION string = "portfolio"
+	ACTION_STATUS_SUCCESS   string = "success"
+)
 
 type Server struct {
 	Port     string
@@ -73,7 +76,7 @@ func (s *Server) Create(_ context.Context, req *CreatePortfolioRequest) (*Create
 		return res, status.Error(codes.Internal, "Error portfolio saving to database")
 	}
 
-	res.Status = "success"
+	res.Status = ACTION_STATUS_SUCCESS
 	res.ID = portfolioId
 
 	return res, nil
@@ -109,7 +112,7 @@ func (s *Server) GetAll(_ context.Context, _ *GetAllPortfolioRequest) (*GetAllPo
 		return res, err
 	}
 
-	res.Status = "success"
+	res.Status = ACTION_STATUS_SUCCESS
 	res.Portfolios = results
 
 	return res, nil
@@ -128,11 +131,38 @@ func (s *Server) Find(_ context.Context, req *FindPortfolioRequest) (*FindPortfo
 	filter := bson.M{"_id": id}
 	err = collection.FindOne(context.TODO(), filter).Decode(portfolio)
 	if err != nil {
+		return res, status.Error(codes.NotFound, fmt.Sprintf("Portfolio with id %s wasn't found", req.ID))
+	}
+
+	res.Status = ACTION_STATUS_SUCCESS
+	res.Portfolio = portfolio
+
+	return res, nil
+}
+
+func (s *Server) Update(_ context.Context, req *UpdatePortfolioRequest) (*UpdatePortfolioResponse, error) {
+	res := &UpdatePortfolioResponse{}
+
+	if req.Name == "" {
+		return res, status.Error(codes.InvalidArgument, "Name is empty")
+	}
+
+	collection := s.DbClient.Database(os.Getenv("DB_NAME")).Collection(DB_PORTFOLIO_COLLECTION)
+	id, err := primitive.ObjectIDFromHex(req.Id)
+	if err != nil {
+		return res, err
+	}
+	filter := bson.M{"_id": id}
+	update := bson.M{"$set": bson.M{
+		"name": req.Name,
+	}}
+
+	_, err = collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
 		return res, err
 	}
 
-	res.Status = "success"
-	res.Portfolio = portfolio
+	res.Status = ACTION_STATUS_SUCCESS
 
 	return res, nil
 }

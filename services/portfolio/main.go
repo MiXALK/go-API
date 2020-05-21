@@ -38,10 +38,11 @@ func main() {
 	//if err != nil {
 	//	log.Fatalf("failed: %v", err)
 	//}
-	//a := portfolio.FindPortfolioRequest{
-	//	ID: "5ec67b0509a4edc79d1f8312",
+	//a := portfolio.UpdatePortfolioRequest{
+	//	Id: "5ec67b0509a4edc79d1f8312",
+	//	Name: "Changed Name",
 	//}
-	//res, err := s.Find(context.TODO(), &a)
+	//res, err := s.Update(context.TODO(), &a)
 	//if err != nil {
 	//	log.Fatalf("failed: %v", err)
 	//}
