@@ -9,7 +9,7 @@ service PortfolioService {
   rpc GetAll (GetAllPortfolioRequest) returns (GetAllPortfolioResponse) {}
   rpc Find (FindPortfolioRequest) returns (FindPortfolioResponse) {}
   rpc Update (UpdatePortfolioRequest) returns (UpdatePortfolioResponse) {}
-//  rpc Delete (Request) returns (Response) {}
+  rpc Delete (DeletePortfolioRequest) returns (DeletePortfolioResponse) {}
 }
 
 message CreatePortfolioRequest {
@@ -39,6 +39,13 @@ message UpdatePortfolioRequest {
   string Name = 2;
 }
 message UpdatePortfolioResponse {
+  string Status = 1;
+}
+
+message DeletePortfolioRequest {
+  string Id = 1;
+}
+message DeletePortfolioResponse {
   string Status = 1;
 }
 

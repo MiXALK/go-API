@@ -166,3 +166,23 @@ func (s *Server) Update(_ context.Context, req *UpdatePortfolioRequest) (*Update
 
 	return res, nil
 }
+
+func (s *Server) Delete(_ context.Context, req *DeletePortfolioRequest) (*DeletePortfolioResponse, error) {
+	res := &DeletePortfolioResponse{}
+
+	id, err := primitive.ObjectIDFromHex(req.Id)
+	if err != nil {
+		return res, err
+	}
+
+	collection := s.DbClient.Database(os.Getenv("DB_NAME")).Collection(DB_PORTFOLIO_COLLECTION)
+	filter := bson.M{"_id": id}
+	_, err = collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return res, err
+	}
+
+	res.Status = ACTION_STATUS_SUCCESS
+
+	return res, nil
+}

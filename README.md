@@ -1,4 +1,4 @@
 ### Go API
 
-* Build api: `docker build -t go_api .`
-* Run api with mysql: `docker-compose up -d`
+* Build api: `docker-compose up --build`
+* Generate go files from proto files: `./bin/protogen.sh`
