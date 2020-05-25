@@ -17,6 +17,6 @@ WORKDIR /app
 
 COPY --from=builder /app/main .
 
-EXPOSE ${PORTFOLIO_PORT}
+EXPOSE ${API_PORT}
 
 CMD ["./main"]
