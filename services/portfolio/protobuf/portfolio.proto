@@ -2,10 +2,16 @@ syntax = "proto3";
 
 package portfolio;
 
+import "google/api/annotations.proto";
+
 option go_package = ".;portfolio";
 
 service PortfolioService {
-  rpc Create (CreatePortfolioRequest) returns (CreatePortfolioResponse) {}
+  rpc Create (CreatePortfolioRequest) returns (CreatePortfolioResponse) {
+    option (google.api.http) = {
+      post: "/portfolio"
+    };
+  }
   rpc GetAll (GetAllPortfolioRequest) returns (GetAllPortfolioResponse) {}
   rpc Find (FindPortfolioRequest) returns (FindPortfolioResponse) {}
   rpc Update (UpdatePortfolioRequest) returns (UpdatePortfolioResponse) {}
