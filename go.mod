@@ -6,6 +6,7 @@ require (
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/protobuf v1.4.2
 	github.com/gorilla/mux v1.7.4
+	github.com/grpc-ecosystem/grpc-gateway v1.14.6 // indirect
 	github.com/joho/godotenv v1.3.0
 	go.mongodb.org/mongo-driver v1.3.3
 	golang.org/x/net v0.0.0-20200519113804-d87ec0cfa476 // indirect
