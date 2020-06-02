@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	portfolio "github.com/MiXALK/go-API/services/portfolio/protobuf"
+	"github.com/MiXALK/go-API/services/portfolio/protobuf"
 	"google.golang.org/grpc"
 	"log"
 	"net"

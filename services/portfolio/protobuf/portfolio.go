@@ -55,13 +55,13 @@ func (s *Server) DbDisconnect() {
 
 func (s *Server) Create(_ context.Context, req *CreatePortfolioRequest) (*CreatePortfolioResponse, error) {
 	res := &CreatePortfolioResponse{}
-	if req.Name == "" {
+	if req.GetName() == "" {
 		return res, status.Error(codes.InvalidArgument, "Name is empty")
 	}
 
 	collection := s.DbClient.Database(os.Getenv("DB_NAME")).Collection(DB_PORTFOLIO_COLLECTION)
 	portfolio := &Portfolio{
-		Name: req.Name,
+		Name: req.GetName(),
 	}
 	insertResult, err := collection.InsertOne(context.TODO(), portfolio)
 	if err != nil {
@@ -121,7 +121,7 @@ func (s *Server) GetAll(_ context.Context, _ *GetAllPortfolioRequest) (*GetAllPo
 func (s *Server) Find(_ context.Context, req *FindPortfolioRequest) (*FindPortfolioResponse, error) {
 	res := &FindPortfolioResponse{}
 
-	id, err := primitive.ObjectIDFromHex(req.ID)
+	id, err := primitive.ObjectIDFromHex(req.GetId())
 	if err != nil {
 		return res, err
 	}
@@ -131,7 +131,7 @@ func (s *Server) Find(_ context.Context, req *FindPortfolioRequest) (*FindPortfo
 	filter := bson.M{"_id": id}
 	err = collection.FindOne(context.TODO(), filter).Decode(portfolio)
 	if err != nil {
-		return res, status.Error(codes.NotFound, fmt.Sprintf("Portfolio with id %s wasn't found", req.ID))
+		return res, status.Error(codes.NotFound, fmt.Sprintf("Portfolio with id %s wasn't found", req.GetId()))
 	}
 
 	res.Status = ACTION_STATUS_SUCCESS
@@ -170,7 +170,7 @@ func (s *Server) Update(_ context.Context, req *UpdatePortfolioRequest) (*Update
 func (s *Server) Delete(_ context.Context, req *DeletePortfolioRequest) (*DeletePortfolioResponse, error) {
 	res := &DeletePortfolioResponse{}
 
-	id, err := primitive.ObjectIDFromHex(req.Id)
+	id, err := primitive.ObjectIDFromHex(req.GetId())
 	if err != nil {
 		return res, err
 	}

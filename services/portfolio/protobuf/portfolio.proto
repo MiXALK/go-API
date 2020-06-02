@@ -9,13 +9,29 @@ option go_package = ".;portfolio";
 service PortfolioService {
   rpc Create (CreatePortfolioRequest) returns (CreatePortfolioResponse) {
     option (google.api.http) = {
-      post: "/portfolio"
+      post: "/v1/portfolio"
     };
   }
-  rpc GetAll (GetAllPortfolioRequest) returns (GetAllPortfolioResponse) {}
-  rpc Find (FindPortfolioRequest) returns (FindPortfolioResponse) {}
-  rpc Update (UpdatePortfolioRequest) returns (UpdatePortfolioResponse) {}
-  rpc Delete (DeletePortfolioRequest) returns (DeletePortfolioResponse) {}
+  rpc GetAll (GetAllPortfolioRequest) returns (GetAllPortfolioResponse) {
+    option (google.api.http) = {
+      get: "/v1/portfolio"
+    };
+  }
+  rpc Find (FindPortfolioRequest) returns (FindPortfolioResponse) {
+    option (google.api.http) = {
+      get: "/v1/portfolio/{Id}"
+    };
+  }
+  rpc Update (UpdatePortfolioRequest) returns (UpdatePortfolioResponse) {
+    option (google.api.http) = {
+      post: "/v1/portfolio/{Id}"
+    };
+  }
+  rpc Delete (DeletePortfolioRequest) returns (DeletePortfolioResponse) {
+    option (google.api.http) = {
+      delete: "/v1/portfolio/{Id}"
+    };
+  }
 }
 
 message CreatePortfolioRequest {
@@ -33,7 +49,7 @@ message GetAllPortfolioResponse {
 }
 
 message FindPortfolioRequest {
-  string ID = 1;
+  string Id = 1;
 }
 message FindPortfolioResponse {
   string Status = 1;

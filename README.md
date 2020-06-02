@@ -1,4 +1,4 @@
 ### Go API
 
 * Build api: `docker-compose up --build`
-* Generate go files from proto files: `./bin/protogen.sh`
+* Generation protobuf go files, gateway files and swagger json: `./bin/protogen.sh`

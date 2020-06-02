@@ -3,7 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	portfolioService "github.com/MiXALK/go-API/services/portfolio/protobuf"
+	portfolio "github.com/MiXALK/go-API/services/api-client/services/portfolio/protobuf"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
 	"log"
 	"net/http"
@@ -33,18 +34,23 @@ func HTTPProxy(proxyAddr string) {
 	}
 	defer grpcPortfolioConn.Close()
 
-	portfolioClient := portfolioService.NewPortfolioServiceClient(grpcPortfolioConn)
+	grpcGwMux := runtime.NewServeMux()
 
-	mux := http.NewServeMux()
+	err = portfolio.RegisterPortfolioServiceHandler(
+		context.Background(),
+		grpcGwMux,
+		grpcPortfolioConn,
+	)
 
-	p := &portfolioService.CreatePortfolioRequest{
-		Name: "New",
+	if err != nil {
+		log.Fatalln("Filed to start HTTP server", err)
 	}
 
-	fmt.Println(portfolioClient.Create(context.TODO(), p))
+	mux := http.NewServeMux()
+	mux.Handle("/v1/", grpcGwMux)
 
 	log.Printf(
-		"tarting HTTP server at %s",
+		"Starting HTTP server at %s",
 		proxyAddr,
 	)
 	log.Fatal(http.ListenAndServe(proxyAddr, mux))
