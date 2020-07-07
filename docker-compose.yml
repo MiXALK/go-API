@@ -1,19 +1,5 @@
 version: '3.7'
 services:
-#  api:
-#    container_name: go_api
-#    build: .
-#    ports:
-#      - ${API_PORT}:${API_PORT}
-#    restart: on-failure
-#    volumes:
-#      - .:/usr/src/app/
-#    depends_on:
-#      - database
-#      - mongo
-#    networks:
-#      - goapi
-
   portfolio_server:
     container_name: portfolio_server
     build:
@@ -22,20 +8,41 @@ services:
     restart: always
     working_dir: /app
     ports:
-      - ${PORTFOLIO_PORT_LOCAL}:${PORTFOLIO_PORT}
+      - ${PORTFOLIO_PORT}:${PORTFOLIO_PORT}
     depends_on:
       - mongo
     environment:
       - PORTFOLIO_HOST=${PORTFOLIO_HOST}
       - PORTFOLIO_PORT=${PORTFOLIO_PORT}
-      - PORTFOLIO_PORT_LOCAL=${PORTFOLIO_PORT_LOCAL}
+      - PORTFOLIO_PORT_LOCAL=${PORTFOLIO_PORT}
       - MONGO_HOST=${MONGO_HOST}
       - MONGO_PORT=${MONGO_PORT}
       - MONGO_USER=${MONGO_USER}
       - MONGO_PASS=${MONGO_PASS}
       - DB_NAME=${DB_NAME}
 
-#  database:
+  user_server:
+    container_name: user_server
+    build:
+      context: ./services/user
+      dockerfile: Dockerfile
+    restart: always
+    working_dir: /app
+    ports:
+      - ${USER_PORT}:${USER_PORT}
+    depends_on:
+      - mongo
+    environment:
+      - USER_HOST=${USER_HOST}
+      - USER_PORT=${USER_PORT}
+      - USER_PORT_LOCAL=${USER_PORT}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASS=${MONGO_PASS}
+      - DB_NAME=${DB_NAME}
+
+  #  database:
 #    image: mysql:8
 #    container_name: go_api_mysql
 #    ports:
@@ -77,9 +84,3 @@ services:
       - PORTFOLIO_HOST=${PORTFOLIO_HOST}
       - PORTFOLIO_PORT=${PORTFOLIO_PORT}
       - API_PORT=${API_PORT}
-
-#networks:
-#  goapi: ~
-#
-#volumes:
-#  database_mysql:
