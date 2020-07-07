@@ -34,7 +34,7 @@ func main() {
 		SERVICE_NAME,
 		os.Getenv("PORTFOLIO_HOST"),
 		Port,
-		os.Getenv("PORTFOLIO_PORT_LOCAL"),
+		os.Getenv("PORTFOLIO_PORT"),
 	)
 
 	err = grpcServer.Serve(lis)
