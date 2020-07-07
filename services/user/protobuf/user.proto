@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package portfolio;
+
+import "google/api/annotations.proto";
+
+option go_package = ".;user";
+
+service UserService {
+  rpc SignUp (SignUpRequest) returns (SignUpResponse) {
+    option (google.api.http) = {
+      post: "/v1/user/signup"
+    };
+  }
+  rpc SignIn (SignInRequest) returns (SignInResponse) {
+    option (google.api.http) = {
+      post: "/v1/user/signin"
+    };
+  }
+  rpc LogOut (LogOutRequest) returns (LogOutResponse) {
+    option (google.api.http) = {
+      get: "/v1/user/logout"
+    };
+  }
+  rpc Create (CreateUserRequest) returns (CreateUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/user"
+    };
+  }
+  rpc Update (UpdateUserRequest) returns (UpdateUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/user/{Id}"
+    };
+  }
+  rpc Delete (DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {
+      delete: "/v1/user/{Id}"
+    };
+  }
+  rpc GetAll (GetAllUserRequest) returns (GetAllUserResponse) {
+    option (google.api.http) = {
+      get: "/v1/user"
+    };
+  }
+  rpc Find (FindUserRequest) returns (FindUserResponse) {
+    option (google.api.http) = {
+      get: "/v1/user/{Id}"
+    };
+  }
+}
+
+message SignUpRequest {
+  string Username = 1;
+  string Password = 2;
+  string Name = 3;
+}
+message SignUpResponse {
+  string Id = 1;
+  string Username = 2;
+  string Role = 3;
+}
+
+message SignInRequest {
+  string Username = 1;
+  string Password = 2;
+}
+message SignInResponse {
+  string Id = 1;
+  string Username = 2;
+  string Role = 3;
+}
+
+message LogOutRequest {
+  string Token = 1;
+}
+message LogOutResponse {
+  uint32 Status = 1;
+}
+
+message CreateUserRequest {
+  string Username = 1;
+  string Email = 2;
+  string Password = 3;
+  string Phone = 4;
+  string Name = 5;
+}
+message CreateUserResponse {
+  User User = 1;
+}
+
+message UpdateUserRequest {
+  string Id = 1;
+  string Email = 2;
+  string Password = 3;
+  string Phone = 4;
+  string Name = 5;
+  string LastName = 6;
+}
+message UpdateUserResponse {
+  uint32 Status = 1;
+}
+
+message DeleteUserRequest {
+  string Id = 1;
+}
+message DeleteUserResponse {
+  uint32 Status = 1;
+}
+
+message GetAllUserRequest {}
+message GetAllUserResponse {
+  uint32 Status = 1;
+  repeated User Users = 2;
+}
+
+message FindUserRequest {
+  string Id = 1;
+}
+message FindUserResponse {
+  uint32 Status = 1;
+  User User = 2;
+}
+
+message User {
+  string Username = 1;
+  string Id = 2;
+  string Email = 3;
+  string Password = 4;
+  string Name = 5;
+  string Phone = 7;
+}
