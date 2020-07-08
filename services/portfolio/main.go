@@ -1,44 +1,44 @@
 package main
 
 import (
-	"fmt"
-	"github.com/MiXALK/go-API/services/portfolio/protobuf"
-	"google.golang.org/grpc"
-	"log"
-	"net"
-	"os"
+    "fmt"
+    "log"
+    "net"
+    "os"
+
+    "google.golang.org/grpc"
+
+    "github.com/MiXALK/go-API/services/portfolio/protobuf"
 )
 
-const SERVICE_NAME = "portfolio_server"
-
 func main() {
-	Port := os.Getenv("PORTFOLIO_PORT")
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", Port))
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
+    port := os.Getenv("PORTFOLIO_PORT")
+    listener, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
+    if err != nil {
+        log.Fatalf("Failed to listen on port %s: %v", port, err)
+    }
 
-	s := &portfolio.Server{}
+    s := &portfolio.Server{}
 
-	err = s.DbConnect()
-	if err != nil {
-		log.Fatalf("failed to connect database: %v", err)
-	}
-	defer s.DbDisconnect()
+    err = s.DbConnect()
+    if err != nil {
+        log.Fatalf("Failed to connect database: %v", err)
+    }
+    defer s.DbDisconnect()
 
-	grpcServer := grpc.NewServer()
-	portfolio.RegisterPortfolioServiceServer(grpcServer, s)
+    grpcServer := grpc.NewServer()
+    portfolio.RegisterPortfolioServiceServer(grpcServer, s)
 
-	log.Printf(
-		"%s service started on  %s:%s (localhost:%s)",
-		SERVICE_NAME,
-		os.Getenv("PORTFOLIO_HOST"),
-		Port,
-		os.Getenv("PORTFOLIO_PORT"),
-	)
+    err = grpcServer.Serve(listener)
+    if err != nil {
+        log.Fatalf("Failed to serve: %v", err)
+    }
 
-	err = grpcServer.Serve(lis)
-	if err != nil {
-		log.Fatalf("failed to serve: %s", err)
-	}
+    log.Printf(
+        "%s service succesfully started on %s:%s (localhost:%s)",
+        os.Getenv("PORTFOLIO_HOST"),
+        os.Getenv("PORTFOLIO_HOST"),
+        port,
+        port,
+    )
 }
