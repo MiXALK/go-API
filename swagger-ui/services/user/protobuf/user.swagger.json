@@ -227,8 +227,7 @@
       "type": "object",
       "properties": {
         "Status": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         }
       }
     },
@@ -236,8 +235,7 @@
       "type": "object",
       "properties": {
         "Status": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "User": {
           "$ref": "#/definitions/portfolioUser"
@@ -248,8 +246,7 @@
       "type": "object",
       "properties": {
         "Status": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "Users": {
           "type": "array",
@@ -263,8 +260,7 @@
       "type": "object",
       "properties": {
         "Status": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         }
       }
     },
@@ -300,18 +296,17 @@
       "type": "object",
       "properties": {
         "Status": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         }
       }
     },
     "portfolioUser": {
       "type": "object",
       "properties": {
-        "Username": {
+        "Id": {
           "type": "string"
         },
-        "Id": {
+        "Username": {
           "type": "string"
         },
         "Email": {

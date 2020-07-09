@@ -74,7 +74,7 @@ message LogOutRequest {
   string Token = 1;
 }
 message LogOutResponse {
-  uint32 Status = 1;
+  string Status = 1;
 }
 
 message CreateUserRequest {
@@ -97,19 +97,19 @@ message UpdateUserRequest {
   string LastName = 6;
 }
 message UpdateUserResponse {
-  uint32 Status = 1;
+  string Status = 1;
 }
 
 message DeleteUserRequest {
   string Id = 1;
 }
 message DeleteUserResponse {
-  uint32 Status = 1;
+  string Status = 1;
 }
 
 message GetAllUserRequest {}
 message GetAllUserResponse {
-  uint32 Status = 1;
+  string Status = 1;
   repeated User Users = 2;
 }
 
@@ -117,13 +117,13 @@ message FindUserRequest {
   string Id = 1;
 }
 message FindUserResponse {
-  uint32 Status = 1;
+  string Status = 1;
   User User = 2;
 }
 
 message User {
-  string Username = 1;
-  string Id = 2;
+  string Id = 1;
+  string Username = 2;
   string Email = 3;
   string Password = 4;
   string Name = 5;

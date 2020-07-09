@@ -110,7 +110,7 @@
           "PortfolioService"
         ]
       },
-      "post": {
+      "patch": {
         "operationId": "PortfolioService_Update",
         "responses": {
           "200": {
@@ -188,6 +188,9 @@
     "portfolioPortfolio": {
       "type": "object",
       "properties": {
+        "Id": {
+          "type": "string"
+        },
         "Name": {
           "type": "string"
         }

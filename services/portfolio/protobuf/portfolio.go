@@ -24,8 +24,9 @@ type Server struct {
     DbClient *mongo.Client
 }
 
-type PortfolioItem struct {
-
+type dataPortfolio struct {
+    ID   primitive.ObjectID `bson:"_id,omitempty"`
+    Name string             `bson:"name"`
 }
 
 func (s *Server) DbConnect() error {
@@ -69,7 +70,7 @@ func (s *Server) Create(_ context.Context, req *CreatePortfolioRequest) (*Create
     portfolio := &Portfolio{
         Name: req.GetName(),
     }
-    insertResult, err := portfolioCollection.InsertOne(context.TODO(), portfolio)
+    insertResult, err := portfolioCollection.InsertOne(context.Background(), portfolio)
     if err != nil {
         return res, err
     }
@@ -94,32 +95,39 @@ func (s *Server) GetAll(_ context.Context, _ *GetAllPortfolioRequest) (*GetAllPo
     portfolioCollection := s.getPortfolioCollection()
 
     filter := bson.D{}
-    var results []*Portfolio
+    var portfolios []*Portfolio
 
-    cur, err := portfolioCollection.Find(context.TODO(), filter)
+    cursor, err := portfolioCollection.Find(context.Background(), filter)
     if err != nil {
         return res, err
     }
 
-    for cur.Next(context.TODO()) {
-        portfolio := &Portfolio{}
-        err := cur.Decode(portfolio)
+    data := &dataPortfolio{}
+
+    for cursor.Next(context.Background()) {
+        err := cursor.Decode(data)
+
+        portfolio := &Portfolio{
+            Id: data.ID.Hex(),
+            Name: data.Name,
+        }
+
         if err != nil {
             return res, err
         }
-        results = append(results, portfolio)
+        portfolios = append(portfolios, portfolio)
     }
 
-    if err := cur.Err(); err != nil {
+    if err := cursor.Err(); err != nil {
         return res, err
     }
 
-    if err := cur.Close(context.TODO()); err != nil {
+    if err := cursor.Close(context.Background()); err != nil {
         return res, err
     }
 
     res.Status = ACTION_STATUS_SUCCESS
-    res.Portfolios = results
+    res.Portfolios = portfolios
 
     return res, nil
 }
@@ -133,11 +141,16 @@ func (s *Server) Find(_ context.Context, req *FindPortfolioRequest) (*FindPortfo
     }
 
     portfolioCollection := s.getPortfolioCollection()
-    portfolio := &Portfolio{}
+    data := &dataPortfolio{}
     filter := bson.M{"_id": id}
-    err = portfolioCollection.FindOne(context.TODO(), filter).Decode(portfolio)
+    err = portfolioCollection.FindOne(context.Background(), filter).Decode(data)
     if err != nil {
         return res, status.Error(codes.NotFound, fmt.Sprintf("Portfolio with id %s wasn't found", req.GetId()))
+    }
+
+    portfolio := &Portfolio{
+        Id: data.ID.Hex(),
+        Name: data.Name,
     }
 
     res.Status = ACTION_STATUS_SUCCESS
@@ -163,7 +176,7 @@ func (s *Server) Update(_ context.Context, req *UpdatePortfolioRequest) (*Update
         "name": req.Name,
     }}
 
-    _, err = portfolioCollection.UpdateOne(context.TODO(), filter, update)
+    _, err = portfolioCollection.UpdateOne(context.Background(), filter, update)
     if err != nil {
         return res, err
     }
@@ -183,7 +196,7 @@ func (s *Server) Delete(_ context.Context, req *DeletePortfolioRequest) (*Delete
 
     portfolioCollection := s.getPortfolioCollection()
     filter := bson.M{"_id": id}
-    _, err = portfolioCollection.DeleteOne(context.TODO(), filter)
+    _, err = portfolioCollection.DeleteOne(context.Background(), filter)
     if err != nil {
         return res, err
     }

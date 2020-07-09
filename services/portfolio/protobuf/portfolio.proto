@@ -24,7 +24,7 @@ service PortfolioService {
   }
   rpc Update (UpdatePortfolioRequest) returns (UpdatePortfolioResponse) {
     option (google.api.http) = {
-      post: "/v1/portfolio/{Id}"
+      patch: "/v1/portfolio/{Id}"
     };
   }
   rpc Delete (DeletePortfolioRequest) returns (DeletePortfolioResponse) {
@@ -72,5 +72,6 @@ message DeletePortfolioResponse {
 }
 
 message Portfolio {
-  string Name = 1;
+  string Id = 1;
+  string Name = 2;
 }
