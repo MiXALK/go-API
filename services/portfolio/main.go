@@ -28,7 +28,6 @@ func main() {
 
     grpcServer := grpc.NewServer()
     portfolio.RegisterPortfolioServiceServer(grpcServer, s)
-
     err = grpcServer.Serve(listener)
     if err != nil {
         log.Fatalf("Failed to serve: %v", err)

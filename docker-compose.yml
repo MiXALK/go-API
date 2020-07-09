@@ -20,25 +20,25 @@ services:
       - MONGO_PASS=${MONGO_PASS}
       - DB_NAME=${DB_NAME}
 
-#  user_server:
-#    container_name: user_server
-#    build:
-#      context: ./services/user
-#      dockerfile: Dockerfile
-#    restart: always
-#    working_dir: /app
-#    ports:
-#      - ${USER_PORT}:${USER_PORT}
-#    depends_on:
-#      - mongo
-#    environment:
-#      - USER_HOST=${USER_HOST}
-#      - USER_PORT=${USER_PORT}
-#      - MONGO_HOST=${MONGO_HOST}
-#      - MONGO_PORT=${MONGO_PORT}
-#      - MONGO_USER=${MONGO_USER}
-#      - MONGO_PASS=${MONGO_PASS}
-#      - DB_NAME=${DB_NAME}
+  user_server:
+    container_name: user_server
+    build:
+      context: ./services/user
+      dockerfile: Dockerfile
+    restart: always
+    working_dir: /app
+    ports:
+      - ${USER_PORT}:${USER_PORT}
+    depends_on:
+      - mongo
+    environment:
+      - USER_HOST=${USER_HOST}
+      - USER_PORT=${USER_PORT}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASS=${MONGO_PASS}
+      - DB_NAME=${DB_NAME}
 
   #  database:
 #    image: mysql:8

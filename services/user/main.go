@@ -1,44 +1,43 @@
 package main
 
 import (
-	"fmt"
-	user "github.com/MiXALK/go-API/services/user/protobuf"
-	"google.golang.org/grpc"
-	"log"
-	"net"
-	"os"
+    "fmt"
+    "log"
+    "net"
+    "os"
+
+    "google.golang.org/grpc"
+
+    "github.com/MiXALK/go-API/services/user/protobuf"
 )
 
-const SERVICE_NAME string = "user_server"
-
 func main() {
-	Port := os.Getenv("USER_PORT")
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", Port))
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
+    port := os.Getenv("USER_PORT")
+    listener, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
+    if err != nil {
+        log.Fatalf("Failed to listen on port %s: %v", port, err)
+    }
 
-	s := &user.Server{}
+    s := &user.Server{}
 
-	err = s.DbConnect()
-	if err != nil {
-		log.Fatalf("failed to connect database: %v", err)
-	}
-	defer s.DbDisconnect()
+    err = s.DbConnect()
+    if err != nil {
+        log.Fatalf("Failed to connect database: %v", err)
+    }
+    defer s.DbDisconnect()
 
-	grpcServer := grpc.NewServer()
-	user.RegisterUserServiceServer(grpcServer, s)
+    grpcServer := grpc.NewServer()
+    user.RegisterUserServiceServer(grpcServer, s)
+    err = grpcServer.Serve(listener)
+    if err != nil {
+        log.Fatalf("failed to serve: %s", err)
+    }
 
-	log.Printf(
-		"%s service started on  %s:%s (localhost:%s)",
-		SERVICE_NAME,
-		os.Getenv("USER_HOST"),
-		Port,
-		os.Getenv("USER_PORT"),
-	)
-
-	err = grpcServer.Serve(lis)
-	if err != nil {
-		log.Fatalf("failed to serve: %s", err)
-	}
+    log.Printf(
+        "%s service succesfully started on  %s:%s (localhost:%s)",
+        os.Getenv("USER_HOST"),
+        os.Getenv("USER_HOST"),
+        port,
+        port,
+    )
 }

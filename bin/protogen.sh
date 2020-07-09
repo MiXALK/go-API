@@ -25,8 +25,8 @@ protoc -I/usr/local/include -I. \
 echo "Generation protobuf user go file for api client service"
 protoc -I/usr/local/include -I. \
   -I$GOPATH/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.14.6/third_party/googleapis \
-  ./services/portfolio/protobuf/portfolio.proto \
-  --go_out=plugins=grpc:services/api-client/services/portfolio/protobuf
+  ./services/user/protobuf/user.proto \
+  --go_out=plugins=grpc:services/api-client/services/user/protobuf
 
 
 
