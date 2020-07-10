@@ -12,6 +12,11 @@ service UserService {
       post: "/v1/user"
     };
   }
+  rpc GetAll (GetAllUserRequest) returns (GetAllUserResponse) {
+    option (google.api.http) = {
+      get: "/v1/user"
+    };
+  }
 }
 
 message CreateUserRequest {
@@ -27,6 +32,12 @@ message CreateUserRequest {
 message CreateUserResponse {
   string Status = 1;
   string Id = 2;
+}
+
+message GetAllUserRequest {}
+message GetAllUserResponse {
+  string Status = 1;
+  repeated User Users = 2;
 }
 
 message User {

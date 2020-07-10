@@ -7,6 +7,7 @@ import (
     "os"
     "regexp"
 
+    "go.mongodb.org/mongo-driver/bson"
     "go.mongodb.org/mongo-driver/bson/primitive"
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
@@ -29,6 +30,13 @@ type Server struct {
 type dataUser struct {
     ID   primitive.ObjectID `bson:"_id,omitempty"`
     Name string             `bson:"name"`
+    Email string            `bson:"email"`
+    Password string         `bson:"password"`
+    Phone string            `bson:"phone"`
+    Address string          `bson:"address"`
+    Town string             `bson:"town"`
+    Region string           `bson:"region"`
+    Country string          `bson:"country"`
 }
 
 func (s *Server) DbConnect() error {
@@ -95,6 +103,56 @@ func (s *Server) Create(_ context.Context, req *CreateUserRequest) (*CreateUserR
 
     res.Status = ACTION_STATUS_SUCCESS
     res.Id = userId
+
+    return res, nil
+}
+
+func (s *Server) GetAll(_ context.Context, _ *GetAllUserRequest) (*GetAllUserResponse, error) {
+    res := &GetAllUserResponse{}
+
+    userCollection := s.getUserCollection()
+
+    filter := bson.D{}
+    var users []*User
+
+    cursor, err := userCollection.Find(context.Background(), filter)
+    if err != nil {
+        return res, err
+    }
+
+    data := &dataUser{}
+
+    for cursor.Next(context.Background()) {
+        err := cursor.Decode(data)
+
+        user := &User{
+            Id: data.ID.Hex(),
+            Name: data.Name,
+            Email: data.Email,
+            Password: data.Password,
+            Phone: data.Phone,
+            Address: data.Address,
+            Town: data.Town,
+            Region: data.Region,
+            Country: data.Country,
+        }
+
+        if err != nil {
+            return res, err
+        }
+        users = append(users, user)
+    }
+
+    if err := cursor.Err(); err != nil {
+        return res, err
+    }
+
+    if err := cursor.Close(context.Background()); err != nil {
+        return res, err
+    }
+
+    res.Status = ACTION_STATUS_SUCCESS
+    res.Users = users
 
     return res, nil
 }

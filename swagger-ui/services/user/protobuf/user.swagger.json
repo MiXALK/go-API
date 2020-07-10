@@ -12,6 +12,26 @@
   ],
   "paths": {
     "/v1/user": {
+      "get": {
+        "operationId": "UserService_GetAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userGetAllUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "UserService"
+        ]
+      },
       "post": {
         "operationId": "UserService_Create",
         "responses": {
@@ -75,6 +95,52 @@
           "type": "string"
         },
         "Id": {
+          "type": "string"
+        }
+      }
+    },
+    "userGetAllUserResponse": {
+      "type": "object",
+      "properties": {
+        "Status": {
+          "type": "string"
+        },
+        "Users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userUser"
+          }
+        }
+      }
+    },
+    "userUser": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Email": {
+          "type": "string"
+        },
+        "Password": {
+          "type": "string"
+        },
+        "Phone": {
+          "type": "string"
+        },
+        "Address": {
+          "type": "string"
+        },
+        "Town": {
+          "type": "string"
+        },
+        "Region": {
+          "type": "string"
+        },
+        "Country": {
           "type": "string"
         }
       }
