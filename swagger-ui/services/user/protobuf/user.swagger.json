@@ -52,6 +52,36 @@
           "UserService"
         ]
       }
+    },
+    "/v1/user/{Id}": {
+      "get": {
+        "operationId": "UserService_Find",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userFindUserResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -96,6 +126,17 @@
         },
         "Id": {
           "type": "string"
+        }
+      }
+    },
+    "userFindUserResponse": {
+      "type": "object",
+      "properties": {
+        "Status": {
+          "type": "string"
+        },
+        "User": {
+          "$ref": "#/definitions/userUser"
         }
       }
     },

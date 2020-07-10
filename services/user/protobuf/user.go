@@ -157,6 +157,40 @@ func (s *Server) GetAll(_ context.Context, _ *GetAllUserRequest) (*GetAllUserRes
     return res, nil
 }
 
+func (s *Server) Find(_ context.Context, req *FindUserRequest) (*FindUserResponse, error) {
+    res := &FindUserResponse{}
+
+    id, err := primitive.ObjectIDFromHex(req.GetId())
+    if err != nil {
+        return res, err
+    }
+
+    userCollection := s.getUserCollection()
+    data := &dataUser{}
+    filter := bson.M{"_id": id}
+    err = userCollection.FindOne(context.Background(), filter).Decode(data)
+    if err != nil {
+        return res, status.Error(codes.NotFound, fmt.Sprintf("User with id %s wasn't found", req.GetId()))
+    }
+
+    user := &User{
+        Id: data.ID.Hex(),
+        Name: data.Name,
+        Email: data.Email,
+        Password: data.Password,
+        Phone: data.Phone,
+        Address: data.Address,
+        Town: data.Town,
+        Region: data.Region,
+        Country: data.Country,
+    }
+
+    res.Status = ACTION_STATUS_SUCCESS
+    res.User = user
+
+    return res, nil
+}
+
 func (s *Server) getUserCollection() *mongo.Collection {
     return s.DbClient.Database(os.Getenv("DB_NAME")).Collection(DB_USER_COLLECTION)
 }

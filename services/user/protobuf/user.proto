@@ -17,6 +17,11 @@ service UserService {
       get: "/v1/user"
     };
   }
+  rpc Find (FindUserRequest) returns (FindUserResponse) {
+    option (google.api.http) = {
+      get: "/v1/user/{Id}"
+    };
+  }
 }
 
 message CreateUserRequest {
@@ -38,6 +43,14 @@ message GetAllUserRequest {}
 message GetAllUserResponse {
   string Status = 1;
   repeated User Users = 2;
+}
+
+message FindUserRequest {
+  string Id = 1;
+}
+message FindUserResponse {
+  string Status = 1;
+  User User = 2;
 }
 
 message User {
