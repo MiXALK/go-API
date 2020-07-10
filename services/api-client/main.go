@@ -3,13 +3,15 @@ package main
 import (
     "context"
     "fmt"
-    portfolio "github.com/MiXALK/go-API/services/api-client/services/portfolio/protobuf"
-    user "github.com/MiXALK/go-API/services/api-client/services/user/protobuf"
-    "github.com/grpc-ecosystem/grpc-gateway/runtime"
-    "google.golang.org/grpc"
     "log"
     "net/http"
     "os"
+
+    "github.com/grpc-ecosystem/grpc-gateway/runtime"
+    "google.golang.org/grpc"
+
+    portfolio "github.com/MiXALK/go-API/services/api-client/services/portfolio/protobuf"
+    user "github.com/MiXALK/go-API/services/api-client/services/user/protobuf"
 )
 
 var (
@@ -31,6 +33,8 @@ func main() {
 }
 
 func HTTPProxy(proxyAddr string) {
+    grpcGwMux := runtime.NewServeMux()
+
     grpcPortfolioConn, err := grpc.Dial(
         portfolioServerAddress,
         grpc.WithInsecure(),
@@ -39,6 +43,15 @@ func HTTPProxy(proxyAddr string) {
         log.Fatalln("Filed to connect to Portfolio service", err)
     }
     defer grpcPortfolioConn.Close()
+
+    err = portfolio.RegisterPortfolioServiceHandler(
+        context.Background(),
+        grpcGwMux,
+        grpcPortfolioConn,
+    )
+    if err != nil {
+        log.Fatalln("Filed to start portfolio HTTP server", err)
+    }
 
     grpcUserConn, err := grpc.Dial(
         userServerAddress,
@@ -49,18 +62,6 @@ func HTTPProxy(proxyAddr string) {
     }
     defer grpcUserConn.Close()
 
-    grpcGwMux := runtime.NewServeMux()
-
-    err = portfolio.RegisterPortfolioServiceHandler(
-        context.Background(),
-        grpcGwMux,
-        grpcPortfolioConn,
-    )
-
-    if err != nil {
-        log.Fatalln("Filed to start HTTP server", err)
-    }
-
     err = user.RegisterUserServiceHandler(
         context.Background(),
         grpcGwMux,
@@ -68,7 +69,7 @@ func HTTPProxy(proxyAddr string) {
     )
 
     if err != nil {
-        log.Fatalln("Filed to start HTTP server", err)
+        log.Fatalln("Filed to start user HTTP server", err)
     }
 
     mux := http.NewServeMux()

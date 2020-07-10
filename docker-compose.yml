@@ -81,4 +81,6 @@ services:
     environment:
       - PORTFOLIO_HOST=${PORTFOLIO_HOST}
       - PORTFOLIO_PORT=${PORTFOLIO_PORT}
+      - USER_HOST=${USER_HOST}
+      - USER_PORT=${USER_PORT}
       - API_PORT=${API_PORT}

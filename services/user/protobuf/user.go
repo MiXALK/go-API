@@ -74,6 +74,11 @@ func (s *Server) Create(_ context.Context, req *CreateUserRequest) (*CreateUserR
         Name: req.GetName(),
         Email: req.GetEmail(),
         Password: req.GetPassword(),
+        Phone: req.GetPhone(),
+        Address: req.GetAddress(),
+        Town: req.GetTown(),
+        Region: req.GetRegion(),
+        Country: req.GetCountry(),
     }
     insertResult, err := userCollection.InsertOne(context.Background(), user)
     if err != nil {
@@ -99,7 +104,8 @@ func (s *Server) getUserCollection() *mongo.Collection {
 }
 
 //TODO Use go-playground/validator for validation
-var rxEmail = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+var rxEmail = regexp.MustCompile("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$")
+var rxPhone = regexp.MustCompile("^+[0-9,()-_]{4,20}$")
 
 func (req *CreateUserRequest) validateUserRequest() error {
     if req.GetName() == "" {
@@ -111,7 +117,12 @@ func (req *CreateUserRequest) validateUserRequest() error {
     }
 
     if !rxEmail.MatchString(req.GetEmail()) {
-        return app.ErrEmailIsEmpty
+        return app.ErrInvalidEmail
+    }
+
+    phone := req.GetPhone()
+    if phone != "" && !rxPhone.MatchString(phone) {
+        return app.ErrInvalidPhone
     }
 
     return nil
